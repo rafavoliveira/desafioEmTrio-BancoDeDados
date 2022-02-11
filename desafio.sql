@@ -210,30 +210,30 @@ insert into item_pedido (quantidade, valor_unitario, valor_total, produto_codigo
 -- *************** EXERCÍCIOS ***************
 
 -- 1- Quantos clientes estão cadastrados na sua base?
-R: select count(cliente.id) from cliente;
+select count(cliente.id) from cliente;
 
 -- 2- Qual o produto mais caro?
-R: select nome, preco from produto where preco = (select max(preco) from produto);
+select nome, preco from produto where preco = (select max(preco) from produto);
 
 
 -- 3- Qual o produto mais barato?
-R: select nome, preco from produto where preco = (select min(preco) from produto);
+select nome, preco from produto where preco = (select min(preco) from produto);
 
 -- 4- Mostre todos os produtos com seus respectivos departamentos.
-R: select * from produto inner join departamento on departamento.codigo = produto.departamento_codigo;
+select * from produto inner join departamento on departamento.codigo = produto.departamento_codigo;
 
 -- 5- Quantos produtos há em cada departamento? Exiba o nome do departamento e a quantidade de produtos que há em cada um. (pense em SUM e GROUP BY)
-R: select departamento.nome, count(produto.codigo), departamento.codigo from produto right outer join departamento on produto.departamento_codigo = departamento.codigo group by departamento.codigo;
+select departamento.nome, count(produto.codigo), departamento.codigo from produto right outer join departamento on produto.departamento_codigo = departamento.codigo group by departamento.codigo;
 
 -- 6- Mostre os dados dos pedidos, incluindo nomes dos clientes e nomes dos produtos que foram vendidos.
-R: select pedido.numero, pedido.status, pedido.data_pedido, pedido.valor_bruto, pedido.desconto, pedido.valor_final, cliente.nome as cliente, produto.nome as produto from pedido left join cliente on pedido.cliente_id = cliente.id right join item_pedido on pedido.numero = item_pedido.pedido_numero left join produto on produto.codigo = item_pedido.produto_codigo;
+select pedido.numero, pedido.status, pedido.data_pedido, pedido.valor_bruto, pedido.desconto, pedido.valor_final, cliente.nome as cliente, produto.nome as produto from pedido left join cliente on pedido.cliente_id = cliente.id right join item_pedido on pedido.numero = item_pedido.pedido_numero left join produto on produto.codigo = item_pedido.produto_codigo;
 
 -- 7- Mostre quantos pedidos foram feitos por mês no ano de 2022 (caso você tenha registros neste ano, senão escolha um ano que você tenha cadastrado - Novamente pense em COUNT e GROUP BY).
-R: SELECT month(pedido.data_pedido) as 'Mês de 2022', count(month(pedido.data_pedido)) as Quantidade from pedido WHERE YEAR(pedido.data_pedido) = 2022 group by MONTH(pedido.data_pedido);
+SELECT month(pedido.data_pedido) as 'Mês de 2022', count(month(pedido.data_pedido)) as Quantidade from pedido WHERE YEAR(pedido.data_pedido) = 2022 group by MONTH(pedido.data_pedido);
 
 -- 8- Mostre quanto foi faturado por mês (leve em conta o valor total de cada pedido - novamente pense em GROUP BY e SUM).
-R: SELECT month(pedido.data_pedido) as 'Mês', year(pedido.data_pedido) as 'Ano', count(month(pedido.data_pedido)) as Quantidade, sum(pedido.valor_final) as 'Rendimento mensal' from pedido group by year(pedido.data_pedido), MONTH(pedido.data_pedido);
+SELECT month(pedido.data_pedido) as 'Mês', year(pedido.data_pedido) as 'Ano', count(month(pedido.data_pedido)) as Quantidade, sum(pedido.valor_final) as 'Rendimento mensal' from pedido group by year(pedido.data_pedido), MONTH(pedido.data_pedido);
 
 -- 9- Mostre o valor total do estoque por departamento.
-R: select sum(produto.preco * produto.estoque) as Inventário, departamento.codigo, departamento.nome from produto right outer join departamento on produto.departamento_codigo = departamento.codigo group by departamento.codigo;
+select sum(produto.preco * produto.estoque) as Inventário, departamento.codigo, departamento.nome from produto right outer join departamento on produto.departamento_codigo = departamento.codigo group by departamento.codigo;
 
